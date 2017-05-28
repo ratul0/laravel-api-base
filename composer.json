@@ -10,7 +10,8 @@
         "laravel/tinker": "~1.0",
 	    "spatie/laravel-medialibrary": "^5.0.0",
         "spatie/laravel-permission": "^2.1",
-        "tymon/jwt-auth": "0.5.*"
+        "tymon/jwt-auth": "0.5.*",
+        "league/fractal": "^0.14.0"
 
     },
     "require-dev": {
