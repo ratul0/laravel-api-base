@@ -63,7 +63,7 @@ class ApiResponse implements ApiResponseInterface
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public static function error(
+    public function error(
         $message = '',
         $result = '',
         $errorCode = self::HTTP_CODE_400_BAD_REQUEST,
