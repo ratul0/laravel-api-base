@@ -12,6 +12,16 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group(['prefix' => 'v1'],function (){
+    Route::get('ping',function (){
+        return response()->json('pong');
+    });
+    Route::group(['namespace' => 'Api\V1\Auth'],function (){
+        Route::post('login',['as'=>'v1.login','uses'=>'AuthController@login']);
+        Route::get('refresh-token', ['as' => 'v1.refresh', 'uses' => 'AuthController@refreshToken']);
+    });
+});
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
