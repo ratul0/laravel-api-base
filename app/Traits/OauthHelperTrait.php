@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Traits;
+namespace App\Traits;
 
 use App\Responses\SimpleResponse;
 use Illuminate\Support\Facades\App;

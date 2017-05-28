@@ -47,6 +47,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if(env('APP_DEBUG') == true){
+            $returnValue = parent::render($request, $exception);
+            return $returnValue;
+        }
         if(!$this->isApiCall($request)) {
             $returnValue = parent::render($request, $exception);
         } else {
