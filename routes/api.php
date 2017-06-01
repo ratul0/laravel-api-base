@@ -18,6 +18,7 @@ Route::group(['prefix' => 'v1'],function (){
     });
     Route::group(['namespace' => 'Api\V1\Auth'],function (){
         Route::post('login',['as'=>'v1.login','uses'=>'AuthController@login']);
+        Route::post('register',['as'=>'v1.register','uses'=>'AuthController@register']);
         Route::get('refresh-token', ['as' => 'v1.refresh', 'uses' => 'AuthController@refreshToken']);
     });
 });
