@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call(UserTableSeeder::class);
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $tables = DB::select('SHOW TABLES');
+
+        foreach ($tables as $table){
+            if($table->Tables_in_homestead != 'migrations'){
+                DB::table($table->Tables_in_homestead)->truncate();
+            }
+        }
+
+        $this->call(RolesTableSeeder::class);
+        $this->call(UserTableSeeder::class);
+        $this->call(AssignRoleSeeder::class);
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

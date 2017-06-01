@@ -12,5 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $tables = \Illuminate\Support\Facades\DB::select('SHOW TABLES');
+
+    foreach ($tables as $table){
+        if($table->Tables_in_homestead != 'migrations'){
+            //echo $table;
+            print_r($table->Tables_in_homestead);
+        }
+    }
 });
