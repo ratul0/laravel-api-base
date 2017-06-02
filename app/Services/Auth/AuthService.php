@@ -37,6 +37,10 @@ class AuthService
         $this->apiResponse = $apiResponse;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -52,5 +56,18 @@ class AuthService
         }
 
         return $this->apiResponse->success($token);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getRefreshToken()
+    {
+        try {
+            $token = JWTAuth::refresh(JWTAuth::getToken());
+            return $this->apiResponse->success($token);
+        } catch (\Exception $e) {
+            return $this->apiResponse->error("invalid token");
+        }
     }
 }
