@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Http\Requests\Auth\UserRegistration;
 use App\Responses\ApiResponse;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
@@ -41,8 +42,16 @@ class AuthController extends Controller
         return $response;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function refreshToken()
     {
         return $this->authService->getRefreshToken();
+    }
+
+    public function register(UserRegistration $request)
+    {
+        return $request->all();
     }
 }
