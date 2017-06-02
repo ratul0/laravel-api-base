@@ -50,8 +50,12 @@ class AuthController extends Controller
         return $this->authService->getRefreshToken();
     }
 
+    /**
+     * @param UserRegistration $request
+     * @return mixed
+     */
     public function register(UserRegistration $request)
     {
-        return $request->all();
+        return $this->authService->register($request);
     }
 }
