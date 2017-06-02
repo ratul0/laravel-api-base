@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Http\Requests\Auth\UserRegistration;
 use App\Responses\ApiResponse;
 use App\Services\Auth\AuthService;
+use App\Transformers\Api\UserTransformer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -19,17 +20,23 @@ class AuthController extends Controller
      * @var AuthService
      */
     private $authService;
+    /**
+     * @var UserTransformer
+     */
+    private $userTransformer;
 
     /**
      * AuthController constructor.
      * @param ApiResponse $apiResponse
      * @param AuthService $authService
+     * @param UserTransformer $userTransformer
      */
-    public function __construct(ApiResponse $apiResponse,AuthService $authService)
+    public function __construct(ApiResponse $apiResponse,AuthService $authService,UserTransformer $userTransformer)
     {
 
         $this->apiResponse = $apiResponse;
         $this->authService = $authService;
+        $this->userTransformer = $userTransformer;
     }
 
     /**
@@ -56,6 +63,11 @@ class AuthController extends Controller
      */
     public function register(UserRegistration $request)
     {
-        return $this->authService->register($request);
+        $user = $this->authService->register($request);
+        if($user){
+            return $this->apiResponse->item($user,new UserTransformer);
+        }
+
+        return $this->apiResponse->error('something went wrong.');
     }
 }
