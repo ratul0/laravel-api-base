@@ -6,6 +6,7 @@ use App\Responses\SimpleResponse;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 trait RestExceptionHandlerTrait
 {
@@ -22,6 +23,12 @@ trait RestExceptionHandlerTrait
         switch(true) {
             case $this->isModelNotFoundException($e):
                 $returnValue = $this->modelNotFound();
+                break;
+            case $this->isTokenExpiredException($e):
+                $returnValue = $this->tokenExpired();
+                break;
+            case $this->isTokenExpiredException($e):
+                $returnValue = $this->tokenExpired();
                 break;
             default:
                 $returnValue = $this->badRequest();
@@ -61,6 +68,21 @@ trait RestExceptionHandlerTrait
     }
 
     /**
+     * Returns json response for Eloquent model not found exception.
+     *
+     * @param string $message
+     * @param int $statusCode
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function tokenExpired($message='Token Expired', $statusCode=401)
+    {
+        return response()->json(
+            new SimpleResponse(false, $message, '', $statusCode),
+            $statusCode
+        );
+    }
+
+    /**
      * Returns json response.
      *
      * @param array|null $payload
@@ -83,6 +105,17 @@ trait RestExceptionHandlerTrait
     protected function isModelNotFoundException(Exception $e)
     {
         return $e instanceof ModelNotFoundException;
+    }
+
+    /**
+     * Determines if the given exception is an Token Expired Exception.
+     *
+     * @param Exception $e
+     * @return bool
+     */
+    protected function isTokenExpiredException(Exception $e)
+    {
+        return $e instanceof TokenExpiredException;
     }
 
 }
