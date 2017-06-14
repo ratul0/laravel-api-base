@@ -37,4 +37,12 @@ class UserService extends BaseService
     {
         return $this->userRepository;
     }
+
+    public function create(array $data)
+    {
+        $password = bcrypt($data['password']);
+        $data['password'] = $password;
+
+        return $this->userRepository->create($data);
+    }
 }

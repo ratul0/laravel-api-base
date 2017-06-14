@@ -24,9 +24,9 @@ Route::group(['prefix' => 'v1'],function (){
     Route::group(['namespace' => 'Api\V1\Auth','middleware' => 'jwt.auth'],function (){
         Route::post('refresh-token', ['as' => 'v1.refresh', 'uses' => 'AuthController@refreshToken']);
     });
-});
+    Route::group(['namespace' => 'Api\V1\User','middleware' => 'jwt.auth'],function (){
+        Route::get('users', ['as' => 'v1.users.index', 'uses' => 'UserController@index']);
+        Route::post('users', ['as' => 'v1.users.store', 'uses' => 'UserController@store']);
 
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    });
 });
